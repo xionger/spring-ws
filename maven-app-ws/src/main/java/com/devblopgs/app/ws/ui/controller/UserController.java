@@ -1,5 +1,7 @@
 package com.devblopgs.app.ws.ui.controller;
 
+import com.devblopgs.app.ws.ui.model.request.UserDetailsRequestModel;
+import com.devblopgs.app.ws.ui.model.response.UserRest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,8 +14,8 @@ public class UserController {
     }
 
     @PostMapping
-    public String setUser() {
-        return "setUser is called";
+    public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) {
+        return null;
     }
 
     @PutMapping
