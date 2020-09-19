@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.devblopgs.app.ws.SpringApplicationContext;
 import com.devblopgs.app.ws.service.UserService;
 import com.devblopgs.app.ws.shared.dto.UserDto;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -66,11 +67,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET )
                 .compact();
-        // UserService userService = (UserService)SpringApplicationContext.getBean("userServiceImpl");
-        // UserDto userDto = userService.getUser(userName);
+
+        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+        UserDto userDto = userService.getUser(userName);
 
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
-        // res.addHeader("UserID", userDto.getUserId());
-
+        res.addHeader("UserID", userDto.getUserId());
     }
 }
