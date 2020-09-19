@@ -3,6 +3,7 @@ package com.devblopgs.app.ws.service.impl;
 import com.devblopgs.app.ws.io.entity.UserEntity;
 import com.devblopgs.app.ws.io.repository.UserRepository;
 import com.devblopgs.app.ws.service.UserService;
+import com.devblopgs.app.ws.shared.Utils;
 import com.devblopgs.app.ws.shared.dto.UserDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    Utils utils;
+
     @Override
     public UserDto createUser(UserDto user) {
         if(userRepository.findByEmail(user.getEmail()) != null) {
@@ -24,7 +28,9 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(user, userEntity);
 
         userEntity.setEncryptedPassword("test");
-        userEntity.setUserId("testUserId");
+
+        String publicUserId = utils.generateUserId(20);
+        userEntity.setUserId(publicUserId);
 
         UserEntity storedUserDetails = userRepository.save(userEntity);
 
