@@ -2,6 +2,7 @@ package com.devblopgs.app.ws;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class MavenAppWsApplication {
@@ -10,4 +11,7 @@ public class MavenAppWsApplication {
 		SpringApplication.run(MavenAppWsApplication.class, args);
 	}
 
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }
