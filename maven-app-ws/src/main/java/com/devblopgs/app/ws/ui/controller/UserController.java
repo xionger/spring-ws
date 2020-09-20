@@ -1,5 +1,6 @@
 package com.devblopgs.app.ws.ui.controller;
 
+import com.devblopgs.app.ws.exception.UserServiceException;
 import com.devblopgs.app.ws.service.UserService;
 import com.devblopgs.app.ws.shared.dto.UserDto;
 import com.devblopgs.app.ws.ui.model.request.UserDetailsRequestModel;
@@ -31,7 +32,7 @@ public class UserController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception {
         if(userDetails.getFirstName().isEmpty()) {
-            throw new Exception(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+            throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
         }
 
         UserRest returnValue = new UserRest();
