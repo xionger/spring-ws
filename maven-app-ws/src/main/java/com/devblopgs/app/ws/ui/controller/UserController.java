@@ -3,6 +3,7 @@ package com.devblopgs.app.ws.ui.controller;
 import com.devblopgs.app.ws.service.UserService;
 import com.devblopgs.app.ws.shared.dto.UserDto;
 import com.devblopgs.app.ws.ui.model.request.UserDetailsRequestModel;
+import com.devblopgs.app.ws.ui.model.response.ErrorMessages;
 import com.devblopgs.app.ws.ui.model.response.UserRest;
 
 import org.springframework.beans.BeanUtils;
@@ -28,7 +29,11 @@ public class UserController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) {
+    public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) throws Exception {
+        if(userDetails.getFirstName().isEmpty()) {
+            throw new Exception(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+        }
+
         UserRest returnValue = new UserRest();
         UserDto userDto = new UserDto();
 
