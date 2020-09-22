@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -101,6 +102,12 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.delete(userEntity);
+    }
+
+    @Override
+    public List<UserDto> getUsers(int page, int limit) {
+
+        return null;
     }
 
     @Override
