@@ -1,10 +1,12 @@
 package com.devblopgs.app.ws.service.impl;
 
+import com.devblopgs.app.ws.exception.UserServiceException;
 import com.devblopgs.app.ws.io.entity.UserEntity;
 import com.devblopgs.app.ws.io.repository.UserRepository;
 import com.devblopgs.app.ws.service.UserService;
 import com.devblopgs.app.ws.shared.Utils;
 import com.devblopgs.app.ws.shared.dto.UserDto;
+import com.devblopgs.app.ws.ui.model.response.ErrorMessages;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -69,6 +71,24 @@ public class UserServiceImpl implements UserService {
 
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(userEntity, userDto);
+
+        return userDto;
+    }
+
+    @Override
+    public UserDto updateUser(String userId, UserDto user) {
+        UserEntity userEntity = userRepository.findByUserId(userId);
+        if (userEntity == null) {
+            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        }
+
+        userEntity.setFirstName(user.getFirstName());
+        userEntity.setLastName(user.getLastName());
+
+        UserEntity updatedEntity = userRepository.save(userEntity);
+
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(updatedEntity, userDto);
 
         return userDto;
     }
