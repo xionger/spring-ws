@@ -5,6 +5,8 @@ import com.devblopgs.app.ws.service.UserService;
 import com.devblopgs.app.ws.shared.dto.UserDto;
 import com.devblopgs.app.ws.ui.model.request.UserDetailsRequestModel;
 import com.devblopgs.app.ws.ui.model.response.ErrorMessages;
+import com.devblopgs.app.ws.ui.model.response.OperationStatusModel;
+import com.devblopgs.app.ws.ui.model.response.RequestOPerationStatus;
 import com.devblopgs.app.ws.ui.model.response.UserRest;
 
 import org.springframework.beans.BeanUtils;
@@ -61,8 +63,15 @@ public class UserController {
         return returnValue;
     }
 
-    @DeleteMapping
-    public String deleteUser() {
-        return "deleteUser is called";
+    @DeleteMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public OperationStatusModel deleteUser(@PathVariable String id) {
+        OperationStatusModel returnValue = new OperationStatusModel();
+        returnValue.setOperationName(RequestOPerationName.DELETE.name());
+
+        userService.deleteUser(id);
+
+        returnValue.setOperationResult(RequestOPerationStatus.SUCCESS.name());
+
+        return returnValue;
     }
 }
